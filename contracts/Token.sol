@@ -20,16 +20,27 @@ contract Token {
     event Transfer(address from, address to, uint256 value);
     event Approval(address owner, address spender, uint256 value);
 
+    address public owner;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
     constructor(
         string memory _name,
         string memory _symbol,
         uint256 _decimals,
-        uint256 _totalSupply
+        uint256 _totalSupply,
+        address _owner
     ) public {
+        owner = _owner;
+
         name = _name;
         symbol = _symbol;
         decimals = _decimals;
         totalSupply = _totalSupply;
+
         balances[msg.sender] = _totalSupply;
         emit Transfer(address(0), msg.sender, _totalSupply);
     }
@@ -114,5 +125,9 @@ contract Token {
         }
         _transfer(_from, _to, _value);
         return true;
+    }
+
+    function transferOwnership(address _newOwner) external onlyOwner {
+        owner = _newOwner;
     }
 }
