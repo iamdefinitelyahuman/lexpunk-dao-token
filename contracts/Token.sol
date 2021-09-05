@@ -8,7 +8,6 @@ pragma solidity 0.8.3;
             https://eips.ethereum.org/EIPS/eip-20
  */
 contract Token {
-
     string public symbol;
     string public name;
     uint256 public decimals;
@@ -21,6 +20,9 @@ contract Token {
     event Approval(address owner, address spender, uint256 value);
 
     address public owner;
+    address public minter;
+
+    bool public isMintable;
 
     modifier onlyOwner() {
         require(msg.sender == owner);
@@ -32,14 +34,19 @@ contract Token {
         string memory _symbol,
         uint256 _decimals,
         uint256 _totalSupply,
-        address _owner
+        address _owner,
+        address _minter
     ) public {
-        owner = _owner;
-
         name = _name;
         symbol = _symbol;
         decimals = _decimals;
         totalSupply = _totalSupply;
+
+        owner = _owner;
+        minter = _minter;
+
+        // tokens are mintable in the initial state
+        isMintable = true;
 
         balances[msg.sender] = _totalSupply;
         emit Transfer(address(0), msg.sender, _totalSupply);
@@ -127,7 +134,24 @@ contract Token {
         return true;
     }
 
+    function mint(address _to, uint256 _value) external returns (bool) {
+        require(msg.sender == minter || msg.sender == owner, "Not permitted");
+        require(isMintable, "Minting disabled");
+        totalSupply += _value;
+        balances[_to] += _value;
+        emit Transfer(address(0), _to, _value);
+        return true;
+    }
+
     function transferOwnership(address _newOwner) external onlyOwner {
         owner = _newOwner;
+    }
+
+    function setMinter(address _minter) external onlyOwner {
+        minter = _minter;
+    }
+
+    function setIsMintable(bool _isMintable) external onlyOwner {
+        isMintable = _isMintable;
     }
 }
