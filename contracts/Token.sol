@@ -1,8 +1,6 @@
-pragma solidity ^0.6.0;
+pragma solidity 0.8.3;
 
 // SPDX-License-Identifier: MIT
-
-import "./SafeMath.sol";
 
 /**
     @title Bare-bones Token implementation
@@ -10,7 +8,6 @@ import "./SafeMath.sol";
             https://eips.ethereum.org/EIPS/eip-20
  */
 contract Token {
-    using SafeMath for uint256;
 
     string public symbol;
     string public name;
@@ -83,8 +80,8 @@ contract Token {
         uint256 _value
     ) internal {
         require(balances[_from] >= _value, "Insufficient balance");
-        balances[_from] = balances[_from].sub(_value);
-        balances[_to] = balances[_to].add(_value);
+        balances[_from] -= _value;
+        balances[_to] += _value;
         emit Transfer(_from, _to, _value);
     }
 
@@ -112,7 +109,9 @@ contract Token {
         uint256 _value
     ) public returns (bool) {
         require(allowed[_from][msg.sender] >= _value, "Insufficient allowance");
-        allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
+        if (allowed[_from][msg.sender] != type(uint256).max) {
+            allowed[_from][msg.sender] -= _value;
+        }
         _transfer(_from, _to, _value);
         return true;
     }
