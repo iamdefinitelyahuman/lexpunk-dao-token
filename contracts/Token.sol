@@ -23,6 +23,7 @@ contract Token {
     address public minter;
 
     bool public isMintable;
+    bool public isPaused;
 
     modifier onlyOwner() {
         require(msg.sender == owner);
@@ -47,6 +48,9 @@ contract Token {
 
         // tokens are mintable in the initial state
         isMintable = true;
+
+        // tokens are NOT transferable in the initial state
+        isPaused = true;
 
         balances[msg.sender] = _totalSupply;
         emit Transfer(address(0), msg.sender, _totalSupply);
@@ -98,6 +102,7 @@ contract Token {
         uint256 _value
     ) internal {
         require(balances[_from] >= _value, "Insufficient balance");
+        require(!isPaused, "Transfers are paused");
         balances[_from] -= _value;
         balances[_to] += _value;
         emit Transfer(_from, _to, _value);
@@ -153,5 +158,9 @@ contract Token {
 
     function setIsMintable(bool _isMintable) external onlyOwner {
         isMintable = _isMintable;
+    }
+
+    function setIsPaused(bool _isPaused) external onlyOwner {
+        isPaused = _isPaused;
     }
 }
