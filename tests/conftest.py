@@ -10,6 +10,16 @@ def isolate(fn_isolation):
     pass
 
 
+@pytest.fixture(scope="session")
+def owner(accounts):
+    return accounts[0]
+
+
+@pytest.fixture(scope="session")
+def minter(accounts):
+    return accounts[1]
+
+
 @pytest.fixture(scope="module")
-def token(Token, accounts):
-    return Token.deploy("Test Token", "TST", 18, 1e21, accounts[0], {'from': accounts[0]})
+def token(Token, owner, minter):
+    return Token.deploy("Test Token", "TST", 18, 1e21, owner, minter, {'from': owner})

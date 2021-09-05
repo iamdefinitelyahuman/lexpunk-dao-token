@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 import brownie
+import pytest
+
+
+@pytest.fixture(scope="module", autouse=True)
+def setup(token, owner):
+    token.setIsPaused(False, {"from": owner})
 
 
 def test_sender_balance_decreases(accounts, token):
