@@ -55,9 +55,9 @@ def get_proof(balances):
     tree = MerkleTree(nodes)
     distribution = {
         'merkleRoot': encode_hex(tree.root),
-        'tokenTotal': hex(sum(balances.values())),
+        'tokenTotal': sum(balances.values()),
         'claims': {
-            user: {'index': index, 'amount': hex(amount), 'proof': tree.get_proof(nodes[index])}
+            user: {'index': index, 'amount': amount, 'proof': tree.get_proof(nodes[index])}
             for index, user, amount in elements
         },
     }
@@ -75,6 +75,8 @@ def main():
             except ValueError:
                 print(f"Warning: skipping invalid address '{address}'")
                 continue
+            if address in allocations:
+                raise ValueError(address)
             allocations[address] = int(amount.replace(',', '')) * 10**18
 
     distribution = get_proof(allocations)
