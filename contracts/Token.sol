@@ -3,14 +3,14 @@ pragma solidity 0.8.3;
 // SPDX-License-Identifier: MIT
 
 /**
-    @title Bare-bones Token implementation
-    @notice Based on the ERC-20 token standard as defined at
-            https://eips.ethereum.org/EIPS/eip-20
+    @title LeXpunk Social Token
+    @notice https://www.lexpunk.army/
  */
-contract Token {
-    string public symbol;
-    string public name;
-    uint256 public decimals;
+contract LeXpunK {
+
+    string public constant symbol = "LeXpunK Social Token";
+    string public constant name = "L3X";
+    uint256 public constant decimals = 18;
     uint256 public totalSupply;
 
     mapping(address => uint256) balances;
@@ -31,29 +31,18 @@ contract Token {
     }
 
     constructor(
-        string memory _name,
-        string memory _symbol,
-        uint256 _decimals,
-        uint256 _totalSupply,
         address _owner,
         address _minter
     ) public {
-        name = _name;
-        symbol = _symbol;
-        decimals = _decimals;
-        totalSupply = _totalSupply;
-
         owner = _owner;
         minter = _minter;
 
         // tokens are mintable in the initial state
         isMintable = true;
-
         // tokens are NOT transferable in the initial state
         isPaused = true;
 
-        balances[msg.sender] = _totalSupply;
-        emit Transfer(address(0), msg.sender, _totalSupply);
+        emit Transfer(address(0), msg.sender, 0);
     }
 
     /**
@@ -80,11 +69,7 @@ contract Token {
     }
 
     /**
-        @notice Approve an address to spend the specified amount of tokens on behalf of msg.sender
-        @dev Beware that changing an allowance with this method brings the risk that someone may use both the old
-             and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
-             race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
-             https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+        @notice Approve an address to spend tokens on behalf of the caller
         @param _spender The address which will spend the funds.
         @param _value The amount of tokens to be spent.
         @return Success boolean
