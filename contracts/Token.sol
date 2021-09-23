@@ -8,8 +8,8 @@ pragma solidity 0.8.3;
  */
 contract LeXpunK {
 
-    string public constant symbol = "LeXpunK Social Token";
-    string public constant name = "L3X";
+    string public constant name = "LeXpunK Social Token";
+    string public constant symbol = "L3X";
     uint256 public constant decimals = 18;
     uint256 public totalSupply;
 
