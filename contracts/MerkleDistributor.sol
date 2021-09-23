@@ -64,6 +64,7 @@ contract MerkleDistributor {
     function claim(
         uint256 merkleIndex,
         uint256 index,
+        address receiver,
         uint256 amount,
         bytes32[] calldata merkleProof
     ) external {
@@ -77,7 +78,7 @@ contract MerkleDistributor {
         );
 
         // Verify the merkle proof.
-        bytes32 node = keccak256(abi.encodePacked(index, msg.sender, amount));
+        bytes32 node = keccak256(abi.encodePacked(index, receiver, amount));
         require(
             verify(merkleProof, merkleRoots[merkleIndex], node),
             "MerkleDistributor: Invalid proof."
@@ -85,9 +86,9 @@ contract MerkleDistributor {
 
         // Mark it claimed and send the token.
         _setClaimed(merkleIndex, index);
-        token.mint(msg.sender, amount);
+        token.mint(receiver, amount);
 
-        emit Claimed(merkleIndex, index, msg.sender, amount);
+        emit Claimed(merkleIndex, index, receiver, amount);
     }
 
     function verify(
