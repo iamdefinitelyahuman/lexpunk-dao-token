@@ -7,8 +7,8 @@ def main():
     
     user = accounts.load(click.prompt("account", type=click.Choice(accounts.load())))
     
-    merkle = Contract('0x0E31C3cA624C39E3f93AA2903290C0CA94125941', owner=user)
-    lex = Contract('0x31337D24283390166ed1153E83182a615AA927cC')
+    merkle = Contract('0xcefc24e997807c0808D0F93a05ef21Db8Bb1cC42', owner=user)
+    lex = Contract('0x1337C30c27FA619e66449BC95a69d2b1916124Dd')
     
     claims = json.load(open('lexpunk-claims.json'))['claims']
     
