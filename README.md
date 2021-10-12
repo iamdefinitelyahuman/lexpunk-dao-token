@@ -2,8 +2,8 @@
 
 ## Deployments
 
-* `LeXpunK`: [0x31337302A69Cc247b5049288Bc8eE578f0F9e574](https://etherscan.io/address/0x31337302A69Cc247b5049288Bc8eE578f0F9e574#code)
-* `MerkleDistributor`: [0xFF3CAaBc0FDE82df6F494b795fB9dBa4bC407799](https://etherscan.io/address/0xFF3CAaBc0FDE82df6F494b795fB9dBa4bC407799#code)
+* `LeXpunK`: [0x1337C30c27FA619e66449BC95a69d2b1916124Dd](https://etherscan.io/address/0x1337C30c27FA619e66449BC95a69d2b1916124Dd#code)
+* `MerkleDistributor`: [0xcefc24e997807c0808D0F93a05ef21Db8Bb1cC42](https://etherscan.io/address/0xcefc24e997807c0808D0F93a05ef21Db8Bb1cC42#code)
 
 ## Testing
 
